@@ -5,6 +5,7 @@ import com.bookApi.demo.service.BooksService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -18,7 +19,7 @@ public class BooksController {
 
     //Create Book
     @PostMapping
-    public Books saveAll(@RequestBody Books books){
+    public Books saveAll(@RequestBody @Valid Books books){
         return booksService.saveAll(books);
     }
 
@@ -44,7 +45,7 @@ public class BooksController {
 
     //Update
     @PutMapping("/{id}")
-    public  ResponseEntity<Books> update(@RequestBody Books body, @PathVariable Long id){
+    public  ResponseEntity<Books> update(@RequestBody @Valid Books body, @PathVariable Long id){
         booksService.update(id, body);
         return ResponseEntity.ok().build();
     }
