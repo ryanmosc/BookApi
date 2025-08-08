@@ -59,16 +59,16 @@ public class BooksService {
     }
 
     //Update
-    public void update(Long id, Books booksUpdate) {
+    public Books update(Long id, Books booksUpdate) {
         try {
             Books booksId = findById(id);
             booksId.setAuthor(booksUpdate.getAuthor());
             booksId.setTitle(booksUpdate.getTitle());
             booksId.setGender(booksUpdate.getGender());
             booksId.setDate(booksUpdate.getDate());
-            booksRepository.saveAndFlush(booksId);
+            return booksRepository.saveAndFlush(booksId);
         } catch (Exception e) {
-            throw new  BookNotFoundException("Livro não encontrado com o id " + id);
+            throw new BookNotFoundException("Livro não encontrado com o id " + id);
         }
     }
 
