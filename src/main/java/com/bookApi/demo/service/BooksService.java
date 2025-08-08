@@ -1,5 +1,6 @@
 package com.bookApi.demo.service;
 
+import com.bookApi.demo.Exceptions.BookNotFoundException;
 import com.bookApi.demo.model.Books;
 import com.bookApi.demo.repository.BooksRepository;
 
@@ -40,20 +41,20 @@ public class BooksService {
     //Find by id
     public Books findById(Long id){
         try {
-            return booksRepository.findById(id).orElseThrow(() -> new RuntimeException("Erro ao buscar por id..."));
+            return booksRepository.findById(id).orElseThrow(() -> new BookNotFoundException("Livro não encontrado com o id " + id));
         }
         catch (Exception e){
-            throw new RuntimeException("Erro ao buscar por id...");
+            throw new  BookNotFoundException("Livro não encontrado com o id " + id);
         }
     }
 
     //Find Book by Name
     public Books findByAuthor(String name){
         try {
-            return booksRepository.findByAuthor(name).orElseThrow(()-> new RuntimeException("Erro ao buscar por nome " + name));
+            return booksRepository.findByAuthor(name).orElseThrow(()-> new  BookNotFoundException("Livro não encontrado com o nome " + name));
         }
         catch (Exception e){
-            throw  new RuntimeException("Erro ao buscar por nome...");
+            throw  new  BookNotFoundException("Livro não encontrado com o nome " + name);
         }
     }
 
@@ -67,7 +68,7 @@ public class BooksService {
             booksId.setDate(booksUpdate.getDate());
             booksRepository.saveAndFlush(booksId);
         } catch (Exception e) {
-            throw new RuntimeException("Livro com id " + id + " não encontrado");
+            throw new  BookNotFoundException("Livro não encontrado com o id " + id);
         }
     }
 
@@ -80,7 +81,7 @@ public class BooksService {
                     booksRepository.deleteById(id);
                 }
                 else {
-                    throw new RuntimeException("Livro com o id " + id + " não encontrado");
+                    throw new  BookNotFoundException("Livro não encontrado com o id " + id);
                 }
             }
             catch (Exception e){
