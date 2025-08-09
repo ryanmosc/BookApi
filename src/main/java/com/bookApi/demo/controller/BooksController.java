@@ -1,5 +1,6 @@
 package com.bookApi.demo.controller;
 
+import com.bookApi.demo.Exceptions.BookNotFoundException;
 import com.bookApi.demo.model.Books;
 import com.bookApi.demo.service.BooksService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,6 +37,9 @@ public class BooksController {
     @Operation(description = "Find Book for id")
     @GetMapping("/{id}")
     public ResponseEntity<Books> findById(@PathVariable Long id){
+        if (id == null || id <= 0){
+            throw new BookNotFoundException();
+        }
         Books books = booksService.findById(id);
         return ResponseEntity.ok(books);
     }
@@ -44,6 +48,9 @@ public class BooksController {
     @Operation(description = "Find book for name")
    @GetMapping("/search")
     public ResponseEntity<Books> findByName(@RequestParam String author){
+        if (author == null){
+            throw new BookNotFoundException("Book name has not found");
+        }
         Books books =booksService.findByAuthor(author);
         return ResponseEntity.ok(books);
     }
@@ -52,6 +59,9 @@ public class BooksController {
     @Operation(description = "Update Book")
     @PutMapping("/{id}")
     public ResponseEntity<Books> update(@RequestBody @Valid Books body, @PathVariable Long id){
+        if (id == null || id <= 0){
+            throw new BookNotFoundException();
+        }
         Books books = booksService.update(id, body);
         return ResponseEntity.ok(books);
     }
@@ -60,6 +70,9 @@ public class BooksController {
     @Operation(description = "delete Book")
     @DeleteMapping("/{id}")
     public ResponseEntity<Books> delete(@PathVariable Long id){
+        if (id == null || id <= 0){
+            throw new BookNotFoundException();
+        }
         booksService.delete(id);
         return ResponseEntity.noContent().build();
     }
